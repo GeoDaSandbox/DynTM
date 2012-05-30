@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>OpenLayers Example</title>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript">
+        // making this a global variable so that it is accessible for
+        // debugging/inspecting in Firebug
+        var map = null;
+
+        function init(){
+
+            map = new OpenLayers.Map('map');
+	    var dtm_xyz = new OpenLayers.Layer.XYZ("{{tileSet}}","{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}&z=${z}&x=${x}&y=${y}");
+
+            map.addLayers([dtm_xyz]);
+	    bounds = new OpenLayers.Bounds({{minx}},{{miny}},{{maxx}},{{maxy}});
+	    map.setCenter(new OpenLayers.LonLat({{cLng}},{{cLat}}),1);
+            alert(map.getZoomForExtent(bounds));
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map" class="smallmap"></div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+    var host_url = '{{host_url}}';
+    var tileSet = '{{tileSet}}';
+    var classification = '{{classification}}';
+    var colorScheme ='{{colorScheme}}';
+    var background = '{{background}}';
+    var map;
+    function initialize(map_div) {
+        if (GBrowserIsCompatible()) {
+            // Some Meta Data.
+            var wgsCenter = new GLatLng({{cLat}},{{cLng}});
+            var sw = new GLatLng({{miny}},{{minx}});
+            var ne = new GLatLng({{maxy}},{{maxx}});
+            var wgsBounds = new GLatLngBounds(sw,ne);
+            var name = "{{tileSet}}";
+            var extents = {{extents}};
+
+            var dtmUrl = function(point,zoom){
+                //var url = '{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}&z={Z}&x={X}&y={Y}{{background}}';
+                var url = host_url+'/t/?ts='+tileSet+'&cl='+classification+'&cs='+colorScheme+'&z={Z}&x={X}&y={Y}'+background;
+                tileBounds = extents[zoom];
+                if ((point.x >= tileBounds[0]) && (point.y >= tileBounds[1]) && (point.x <= tileBounds[2]) && (point.y <= tileBounds[3])){
+                    url = url.replace('{X}',point.x);
+                    url = url.replace('{Y}',point.y);
+                    url = url.replace('{Z}',zoom);
+                    return url;
+                } else {
+                    //return '{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}';
+                    return host_url+'/t/?ts='+tileSet+'&cl='+classification+'&cs='+colorScheme+background;
+                }
+            };
+            var dtmLayer = new GTileLayer(new GCopyrightCollection(), 0, {{maxZoom}}, { isPng:false, opacity:0.8 })
+            dtmLayer.getTileUrl = dtmUrl;
+
+            //var map = new GMap2(document.getElementById(map_div));
+            map = new GMap2(map_div, {draggableCursor:'help'});
+            var ui = map.getDefaultUI();
+            ui.maptypes.normal = false;
+            ui.maptypes.satellite = false;
+            ui.maptypes.hybrid = false;
+            ui.maptypes.physical = false;
+            ui.controls.maptypecontrol = false;
+            ui.controls.menumaptypecontrol = false;
+            map.setUI(ui);
+            map.setCenter(new GLatLng(30,0),Math.max(1,map.getBoundsZoomLevel(wgsBounds)));
+
+            var sat_dtm_label_MapType = new GMapType( [G_HYBRID_MAP.getTileLayers()[0], dtmLayer, G_HYBRID_MAP.getTileLayers()[1]], G_NORMAL_MAP.getProjection(), 'sat_label');
+            sat_dtm_label_MapType.getMaximumResolution = function(){return {{maxZoom}}};
+            map.addMapType(sat_dtm_label_MapType);
+            map.setMapType(sat_dtm_label_MapType);
+            map.addControl(new XSliderControl(dtmLayer, dtmLayer.getOpacity(),'http://geodamaps.appspot.com/static/xslide.png','http://geodamaps.appspot.com/static/xknob.png'));
+        } else {
+            alert("Sorry, your browser is too old.  Please download Firefox!");
+        }
+    }   

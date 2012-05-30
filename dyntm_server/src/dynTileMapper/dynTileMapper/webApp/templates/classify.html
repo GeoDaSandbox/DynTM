@@ -1,0 +1,225 @@
+<head>
+<script src="/static/jsDBF/binary-parser/binary-parser.js" type="text/javascript"></script>
+<script src="/static/jsDBF/js_dbf/js_dbf.js" type="text/javascript"></script>
+<script src="http://code.google.com/apis/gears/gears_init.js"></script>
+<script src="/static/jsDBF/file_loader.js" type="text/javascript"></script>
+<script>
+var myDbf;
+var imgCount = 0;
+var ORDER = ['AA', 'AC', 'AE', 'AF', 'AG', 'AJ', 'AL', 'AM', 'AN', 'AO', 'AQ', 'AR', 'AS', 'AU', 'AV', 'AY', 'BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BR', 'BT', 'BU', 'BV', 'BX', 'BY', 'CA', 'CB', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CM', 'CN', 'CO', 'CQ', 'CS', 'CT', 'CU', 'CV', 'CW', 'CY', 'DA', 'DJ', 'DO', 'DQ', 'DR', 'EC', 'EG', 'EI', 'EK', 'EN', 'ER', 'ES', 'ET', 'EZ', 'FG', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FP', 'FQ', 'FR', 'FS', 'GA', 'GB', 'GG', 'GH', 'GI', 'GJ', 'GK', 'GL', 'GM', 'GO', 'GP', 'GQ', 'GR', 'GT', 'GV', 'GY', 'GZ', 'HA', 'HM', 'HO', 'HQ', 'HR', 'HU', 'IC', 'ID', 'IM', 'IN', 'IO', 'IR', 'IS', 'IT', 'IV', 'IZ', 'JA', 'JE', 'JM', 'JN', 'JO', 'JQ', 'JU', 'KE', 'KG', 'KN', 'KR', 'KS', 'KT', 'KU', 'KZ', 'LA', 'LE', 'LG', 'LH', 'LI', 'LO', 'LS', 'LT', 'LU', 'LY', 'MA', 'MB', 'MD', 'MF', 'MG', 'MH', 'MI', 'MJ', 'MK', 'ML', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MT', 'MU', 'MV', 'MX', 'MY', 'MZ', 'NC', 'NE', 'NF', 'NG', 'NH', 'NI', 'NL', 'NO', 'NP', 'NR', 'NS', 'NT', 'NU', 'NZ', 'PA', 'PC', 'PE', 'PK', 'PL', 'PM', 'PO', 'PP', 'PS', 'PU', 'QA', 'RB', 'RE', 'RM', 'RO', 'RP', 'RQ', 'RS', 'RW', 'SA', 'SB', 'SC', 'SE', 'SF', 'SG', 'SH', 'SI', 'SL', 'SM', 'SN', 'SO', 'SP', 'ST', 'SU', 'SV', 'SW', 'SX', 'SY', 'SZ', 'TD', 'TH', 'TI', 'TK', 'TL', 'TN', 'TO', 'TP', 'TS', 'TT', 'TU', 'TV', 'TX', 'TZ', 'UG', 'UK', 'UP', 'US', 'UV', 'UY', 'UZ', 'VC', 'VE', 'VI', 'VM', 'VQ', 'VT', 'WA', 'WE', 'WF', 'WI', 'WQ', 'WS', 'WZ', 'YM', 'ZA', 'ZI'];
+var Values;
+var ID = false;
+function Load(){ //Run by Body.onLoad, The Entry Point.
+  var opener = new GCFileOpener('dat',onFile); //Create a new fileOpen widget and put it in 'dot'.
+}
+function onFile(file){ // Callback function, called when the user opens a File.
+    // Create the DBF object
+	myDbf = new DBF(file);
+    // Read the fields and make a PopUp.
+  	document.getElementById('det').innerHTML = fields_to_option(myDbf.fields());
+}
+function fields_to_option(fields){ // takes a DBF header and makes a form.
+	var opts = '<SELECT id="field_select" NAME="field" onChange="return select_field();">'
+	opts += '<option>Select a Field...</option>';
+	for (var i in fields){
+		name = fields[i][0];
+		opts += "<option>"+name+"</option>";
+	}
+	opts += "</SELECT>";
+	return opts;
+}
+function select_field(){ // on field select.
+  if (!(ID)){
+      selectObj = document.getElementById('field_select')
+      idx = selectObj.selectedIndex - 1; //offset to account for the "Select A Field..." option.
+      var x = document.getElementById('dit');
+      x.innerHTML = "ID: "+selectObj.options[idx+1].text+"<BR>";
+      ID = myDbf.get_field(idx);
+    } else {
+      selectObj = document.getElementById('field_select')
+      idx = selectObj.selectedIndex - 1; //offset to account for the "Select A Field..." option.
+      var x = document.getElementById('dit');
+      x.innerHTML+="Values: "+selectObj.options[idx+1].text+"<BR>";
+      Values = myDbf.get_field(idx);
+    }
+}
+function classify(){
+    selectObj = document.getElementById('classmeth');
+    method = selectObj.options[selectObj.selectedIndex].text;
+    selectObj = document.getElementById('classnum');
+    num = selectObj.options[selectObj.selectedIndex].text;
+    URL = 'http://129.219.93.28/cgi-bin/classifier.py?METHOD='+method+'&NOCLS='+num;
+    if (ID && Values){
+        oIDS = new Array();
+        oValues = new Array();
+        var j = 0;
+        for (var i in ORDER){
+            CO = ORDER[i];
+            idx = ID.indexOf(CO);
+            var val = Values[idx];
+            if ((val) && (val!='0')){
+                oIDS[j] = ID[idx];
+                oValues[j] = Values[idx];
+                j+=1;
+            }
+        }
+        ids = 'IDS='+oIDS.toString();
+        vals = 'VALUES='+oValues.toString();
+        URL = URL+'&'+vals;
+        URL = URL+'&'+ids;
+        var x = document.getElementById('dit');
+        x.innerHTML+= "<a href="+URL+"> classify </a>";
+        //URL = 'proxy.py?'+URL;
+        postXMLDoc('proxy.py?',URL,onGetClassification);
+    }
+}
+
+var xmlhttp;
+
+function loadXMLDoc(url) {
+    xmlhttp=null;
+    if (window.XMLHttpRequest) {// code for all new browsers
+            xmlhttp=new XMLHttpRequest();
+        } else if (window.ActiveXObject) {// code for IE5 and IE6
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    if (xmlhttp!=null) {
+        xmlhttp.onreadystatechange=state_Change;
+        xmlhttp.open("GET",url,true);
+        xmlhttp.setRequestHeader( "Content-type", "text/xml" );
+        xmlhttp.send(null);
+    } else {
+        alert("Your browser does not support XMLHTTP.");
+    }
+}
+
+function state_Change() {
+    if (xmlhttp.readyState==4) {// 4 = "loaded"
+        if (xmlhttp.status==200) {// 200 = OK
+            var png = xmlhttp.responseText;
+            var x = document.getElementById('map');
+            x.src = png;
+            
+        } else {
+            var result = xmlhttp.responseText;
+            alert("Problem retrieving XML data, Status Code: "+xmlhttp.status);
+        }
+    }
+}
+function onGetClassification() {
+    if (xmlhttp.readyState==4) {// 4 = "loaded"
+        if (xmlhttp.status==200) {// 200 = OK
+            var result = xmlhttp.responseText;
+            read_JSON_classification(result);
+        } else {
+            var result = xmlhttp.responseText;
+            alert("Problem retrieving XML data, Status Code: "+xmlhttp.status);
+        }
+    }
+}
+function onPostClassification(){
+    if (xmlhttp.readyState==4) {// 4 = "loaded"
+        if (xmlhttp.status==200) {// 200 = OK
+            url = '/o.png?ts=World&cl=classify_demo';
+            url+= '&id='+ imgCount;
+            imgCount += 1;
+            var x = document.getElementById('map');
+            x.src = url;// = '<img src='+url+'>';//png;
+            //loadXMLDoc(url);
+            //alert(result);
+        } else {
+            var result = xmlhttp.responseText;
+            alert("Problem retrieving XML data, Status Code: "+xmlhttp.status);
+        }
+    }
+}
+
+function read_JSON_classification(data){
+    var MAPID = 'World';
+    classObj = eval('('+data+')');
+    id2colorclass = classObj.id2colorclass.split(',');
+    classes = new Array();
+    for (var i in ORDER){
+        CO = ORDER[i]
+        idx = oIDS.indexOf(CO);
+        if (idx > -1) {
+            val = parseInt(id2colorclass[idx]);
+            if (!(val)){
+                val = 0;
+            }
+            classes[i] = val+2;
+        } else {
+            classes[i] = 0;
+        }
+    }
+        
+    //for (var i in id2colorclass){
+    //    val = parseInt(id2colorclass[i]);
+    //    if (!(val)){
+    //        val = 0;
+    //    }
+    //    classes[i] = val+2;
+    //}
+    //var form = '<form action="http://geodamaps.appspot.com/classify/" method="POST">';
+    //form+='<INPUT type="hidden" name="ts" id="ts" value="World">';
+    //form+='<INPUT type="hidden" name="name" id="name" value="classify_demo">';
+    //form+='<INPUT type="hidden" name="classification" id="classification" value="'+classes.toString()+'">';
+    //form+='<INPUT type="submit" value="Send"></form>';
+    var form = "ts={{ts_name}}&name=classify_demo&classification="+classes.toString();
+    //var x = document.getElementById('dit');
+    //x.innerHTML+= form;
+    postXMLDoc('/classify/',form,onPostClassification);
+    
+    
+}
+
+function postXMLDoc(url,data,callback) {
+    xmlhttp=null;
+    if (window.XMLHttpRequest) {// code for all new browsers
+            xmlhttp=new XMLHttpRequest();
+        } else if (window.ActiveXObject) {// code for IE5 and IE6
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    xmlhttp.open("POST",url,true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange=callback;
+    xmlhttp.send(data);
+}
+
+
+    
+
+</script>
+</head>
+<body onLoad="return Load();">
+<div id='dat'>
+Inside Div dat!
+</div>
+<div id='det'>
+Inside Div det!
+</div>
+<SELECT id="classmeth">
+<option>quantile</option>
+<option> percentile </option>
+<option> boxmap </option>
+<option> equalinterval </option>
+<option> naturalbreak </option>
+<option> stddev </option>
+</SELECT>
+<SELECT id="classnum">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+</SELECT>
+<BUTTON onClick="return classify();">Classify</BUTTON>
+<div id='dit'>
+Inside Div dit!
+</div>
+<img id ='map' src='static/blank.png'>

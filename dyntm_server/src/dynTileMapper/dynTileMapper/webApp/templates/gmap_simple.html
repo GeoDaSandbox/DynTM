@@ -1,0 +1,55 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key={{API_KEY}}" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+	// Some Meta Data.
+	var wgsCenter = new GLatLng({{cLat}},{{cLng}});
+        var sw = new GLatLng({{miny}},{{minx}});
+        var ne = new GLatLng({{maxy}},{{maxx}});
+        var wgsBounds = new GLatLngBounds(sw,ne);
+        var name = "{{tileSet}}";
+	var extents = {{extents}};
+
+	var dtmUrl = function(point,zoom){
+	    var url = '{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}&z={Z}&x={X}&y={Y}';
+            tileBounds = extents[zoom];
+	    if ((point.x >= tileBounds[0]) && (point.y >= tileBounds[1]) && (point.x <= tileBounds[2]) && (point.y <= tileBounds[3])){
+		url = url.replace('{X}',point.x);
+		url = url.replace('{Y}',point.y);
+		url = url.replace('{Z}',zoom);
+		return url;
+	    } else {
+	    	return '{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}';
+	    }
+	};
+	var dtmLayer = new GTileLayer(new GCopyrightCollection(), 0, {{maxZoom}}, {
+	    //tileUrlTemplate: '{{host_url}}/t/?ts={{tileSet}}&cl={{classification}}&cs={{colorScheme}}&z={Z}&x={X}&y={Y}', 
+	    isPng:true,
+	    opacity:1.0
+	  })
+	dtmLayer.getTileUrl = dtmUrl;
+	var dtmMapType = new GMapType( [dtmLayer], G_NORMAL_MAP.getProjection(), name);
+
+        var map = new GMap2(document.getElementById("map_canvas"));
+	map.addMapType(dtmMapType);
+       	var ui = map.getDefaultUI();
+       	ui.maptypes.normal = false; ui.maptypes.satellite = false; ui.maptypes.hybrid = false; ui.maptypes.physical = false;
+        map.setUI(ui);
+        //map.setCenter(wgsCenter, 1);
+        map.setCenter(wgsCenter,map.getBoundsZoomLevel(wgsBounds));
+      }
+    }
+
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="position:absolute;top:0px;left:0px;width:100%;height:100%"></div>
+  </body>
+</html>

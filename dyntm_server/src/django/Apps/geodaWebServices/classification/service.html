@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script>
+function ClassificationServerEnd(){
+    this.SERVICE_URL = "http://SERVERADDRESS/classifier?";
+    this.requests = {};
+    var that = this;
+    window.addEventListener("message",function(event){that.receiveMessage(event);},false);
+}
+ClassificationServerEnd.prototype.receiveMessage = function(event){
+    //alert(event.origin);
+    //alert(event.source);
+    //alert(event.data);
+    var message = event.data.split(":");
+    var reqTime, method, k, y;
+    reqTime = message[0];
+    method = message[1];
+    k = message[2];
+    var reqID = reqTime+":"+method+":"+k;
+    y = message[3];
+    var size = y.split(',').length;
+    //event.source.postMessage("I got request ("+reqID+") with"+size+" elements!","*");
+    var reqData = {METHOD:method, VALUES:y, NOCLS:k};
+    var that = this;
+    $.post("http://SERVERADDRESS/classifier?",reqData,function(data,txtStatus){
+                that.receiveClassification(data,txtStatus,event,reqID);
+            },"JSON");
+}
+ClassificationServerEnd.prototype.receiveClassification = function(data,txtStatus,event,reqID){
+    event.source.postMessage("gwscl://"+reqID+"|||"+data,"*");
+    
+}
+var service = new ClassificationServerEnd();
+</script> </head>
+<body>
+This window provides cross origin access to the GeoDaCenter's Classifcation Web Service.<br>
+This page should not be accessed directly, but instead of loaded via the JavaScript API located here,<br>
+http://127.0.0.1:8000/classifier.js<br>
+<br>
+This is a hidden window.
+</body></html>

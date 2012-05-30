@@ -1,0 +1,3 @@
+pyGWS contains python client libraries for GeoDa Web Service.
+
+This clients are designed to serve as an exmaple of how to interact with GeoDa WebServices programitically, they should be fairly easy to port to other languages.

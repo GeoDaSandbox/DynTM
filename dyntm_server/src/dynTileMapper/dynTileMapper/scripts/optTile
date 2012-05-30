@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+if __name__=='__main__':
+    import sys
+    from pypng import png
+    from pypng.optTile import optTile
+    if len(sys.argv) != 2:
+        print "Usage: python optTile input.png"
+    else:
+        typ,dat = optTile(png.PNG(sys.argv[1]))
+        print typ,dat

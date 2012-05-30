@@ -1,0 +1,38 @@
+dist: contains the packaged distributions or various DynTM related packages.
+src: An export of the SVN, lots more here than just DynTM, but hard to separate.
+     Included setup.sh scripts which help package the various pieces.
+
+INSTALL.txt: An install script
+             This is a shell script that demonstrates the install process.
+             This script should not be run directly on your servers,
+             just use it a guide.  The script was developed on a Blank EC2 with
+             the latest Ubuntu image, the script will complete the install process
+             in that specific environment.
+             This scripts downloads packages from S3, but these are the same packages
+             that are located in the dist folder.
+dynTM_newUser.py: A python script to create a new user.
+
+Description of Code....
+
+gws -- Geoda Web Services
+    -- GWS is a set of Django Applications that provide web services
+    -- Includes a number services:
+    --   geodaWebServiceAuth: provides common authentication
+    --   shapeManager: models Shapefile
+         *NOTE: shapeManager uses Amazon's S3 to persist the shape files.
+		This will need to be refactored.
+                The models themselves support flexible backends.
+    --   dyntm: REST API for DynTM
+    --   classification: REST API and Javascript client for classification
+                         javascript clients supports cross-origin scripting
+                         through iFrames and html5 PostMessage API.
+    --   calc, dict: two demonstration apps to serve as templates for new apps.
+gws_project -- A template Django project with gws installed.
+gws_lib -- A datamodel with flexible backend. Was used to transition from 
+           the DataStore model on Google AppEngine to Amazon's SimpleDB.
+           Also supports "standalone" for development purposes.
+           -- in practice "standalone" is adequate for many use cases.
+dynTileMapper -- The original DynTM code.
+                 This code includes all of the low level rending code,
+                 tile generation, etc.  It also includes the original backage
+                 which was built on top of Google App Engine

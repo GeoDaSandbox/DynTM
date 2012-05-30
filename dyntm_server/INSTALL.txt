@@ -1,0 +1,101 @@
+#####
+#####  Notes:
+#####    gws_lib-0.0.2 is configured in 'standalone' mode
+#####      in this mode, all models created are stored as files
+#####      in a single location, which defaults to: /var/tmp/dtm/
+#####      models include: Users, AccessKeys, TileSets, Classification, even Tiles.
+#####
+#####      This mode was developed primarily for development, 
+#####      hence the /var/tmp location. This location can be adjusted
+#####      by editing config.py.
+#####
+#####      It's possible to add other backends, such as a Key-Store or RDBMS.
+#####
+#####    Shapefiles are handled by the "shapeManager" Django App.
+#####
+
+
+##
+## Install Example Developed on EC2 using the 
+## "Ubuntu Server 12.04 LTS" AMI
+##
+
+#Apache
+sudo apt-get install apache2 -y
+#Python
+sudo apt-get install python-numpy -y
+sudo apt-get install python-scipy -y
+sudo apt-get install python-setuptools -y
+sudo apt-get install libapache2-mod-wsgi -y
+sudo easy_install http://pysal.googlecode.com/files/pysal-1.3.0.tar.gz
+sudo easy_install pip
+#NOTE: Django 1.4 breaks gws_auth
+pip install Django==1.3.1
+
+#MapServer
+sudo apt-get install cgi-mapserver -y
+sudo apt-get install python-mapscript -y
+sudo apt-get install python-gdal -y
+
+######################################
+#  Begin install Geoda Web Services  #
+######################################
+cd /
+mkdir -p src 
+cd src 
+wget http://packages.cloud.geodacenter.org.s3.amazonaws.com/dist/gws-0.0.6.tar.gz
+tar xfz gws-0.0.6.tar.gz
+cd gws-0.0.6
+sudo python setup.py -q install
+mkdir /var/shapefiles
+chmod 777 /var/shapefiles
+
+cd /src
+# version 0.0.1 is default backed by SimpleDB
+#wget http://packages.cloud.geodacenter.org.s3.amazonaws.com/dist/gws_lib-0.0.1.tar.gz
+# version 0.0.2 is default backed by Standalone
+wget http://packages.cloud.geodacenter.org.s3.amazonaws.com/dist/gws_lib-0.0.2.tar.gz
+tar xfz gws_lib-0.0.2.tar.gz
+cd gws_lib-0.0.2
+sudo python setup.py -q install
+
+cd /src
+wget http://packages.cloud.geodacenter.org.s3.amazonaws.com/dist/dynTileMapper-0.2.tar.gz
+tar xfz dynTileMapper-0.2.tar.gz
+cd dynTileMapper-0.2
+sudo python setup.py -q install
+
+cd /src
+wget http://packages.cloud.geodacenter.org.s3.amazonaws.com/dist/gws_project.tar.gz
+tar xfz gws_project.tar.gz
+mv django /usr/local/
+cd /usr/local/
+chown -R www-data django
+chgrp -R www-data django
+cd django/gws_sqlite/
+python manage.py syncdb --noinput
+chown www-data gws.sq3
+chgrp www-data gws.sq3
+
+cd /var/log
+touch dtm.log
+chown www-data dtm.log
+chgrp www-data dtm.log
+
+apache2ctl graceful
+######################################
+#   END install Geoda Web Services   #
+######################################
+
+#####################################
+#  Begin config Geoda Web Services  #
+#####################################
+wget packages.cloud.geodacenter.org.s3.amazonaws.com/conf/django2.http.conf
+mv django2.http.conf /etc/apache2/sites-available/django
+sudo ln -s /etc/apache2/sites-available/django /etc/apache2/sites-enabled/
+sudo rm /etc/apache2/sites-enabled/000-default
+sudo apache2ctl graceful
+
+#####################################
+#   END config Geoda Web Services   #
+#####################################

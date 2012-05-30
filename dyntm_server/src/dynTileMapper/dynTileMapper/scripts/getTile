@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+if __name__=='__main__':
+    import dynTileMapper.tileMaker.tiler as tiler
+    import sys
+    if len(sys.argv) != 5:
+        print "Usage: getTile source.map Zoom X Y"
+    else:
+        mapfile,zoom,x,y = sys.argv[1:]
+        zoom,x,y = map(int,[zoom,x,y])
+        print tiler.Tiler(mapfile).gTileDraw(x,y,zoom)

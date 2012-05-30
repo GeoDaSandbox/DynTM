@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource>
+  <object class="wxFrame" name="DyMaps">
+    <object class="wxToolBar" name="ToolBar">
+      <object class="tool" name="ToolNew">
+        <bitmap stock_id="wxART_NORMAL_FILE"/>
+        <label>TOOL</label>
+        <XRCED>
+          <events>EVT_TOOL</events>
+        </XRCED>
+      </object>
+      <object class="tool" name="ToolOpen">
+        <bitmap stock_id="wxART_FILE_OPEN"/>
+        <label>TOOL</label>
+        <XRCED>
+          <events>EVT_TOOL</events>
+        </XRCED>
+      </object>
+      <object class="tool" name="ToolSave">
+        <bitmap stock_id="wxART_FILE_SAVE"/>
+        <label>TOOL</label>
+        <XRCED>
+          <events>EVT_TOOL</events>
+        </XRCED>
+      </object>
+      <object class="tool" name="ToolSaveAs">
+        <bitmap stock_id="wxART_FILE_SAVE_AS"/>
+        <label>TOOL</label>
+        <XRCED>
+          <events>EVT_TOOL</events>
+        </XRCED>
+      </object>
+      <XRCED>
+        <assign_var>1</assign_var>
+      </XRCED>
+    </object>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxPanel" name="MainPanel">
+          <object class="wxBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxPanel">
+                    <object class="wxStaticBoxSizer" name="mapSettingsSizer">
+                      <object class="sizeritem">
+                        <object class="wxPanel">
+                          <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>ShapeFile</label>
+                                  </object>
+                                  <flag>wxALL|wxALIGN_CENTRE</flag>
+                                  <border>3</border>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxTextCtrl" name="dataFile">
+                                    <XRCED>
+                                      <events>EVT_TEXT</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxALIGN_CENTRE</flag>
+                                  <border>3</border>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxBitmapButton" name="fileopenbutton">
+                                    <size>25,25</size>
+                                    <bitmap stock_id="wxART_FILE_OPEN"/>
+                                    <XRCED>
+                                      <events>EVT_BUTTON</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <flag>wxALL|wxALIGN_CENTRE</flag>
+                                  <border>3</border>
+                                </object>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>ID Variable</label>
+                                  </object>
+                                  <flag>wxALL|wxEXPAND|wxALIGN_CENTRE|wxALIGN_CENTRE_VERTICAL</flag>
+                                  <border>5</border>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxChoice" name="varsChoice">
+                                    <content>
+                                      <item/>
+                                    </content>
+                                    <XRCED>
+                                      <events>EVT_CHOICE</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                          </object>
+                        </object>
+                        <flag>wxALL|wxEXPAND</flag>
+                      </object>
+                      <label>[+] Map Settings</label>
+                      <orient>wxVERTICAL</orient>
+                    </object>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxPanel">
+                    <object class="wxStaticBoxSizer">
+                      <orient>wxVERTICAL</orient>
+                      <object class="sizeritem">
+                        <object class="wxPanel" name="ProjPanel">
+                          <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="">
+                                    <label>Source Projection: </label>
+                                  </object>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxChoice" name="SourceProj">
+                                    <content>
+                                      <item>'init=EPSG:2223'</item>
+                                    </content>
+                                    <XRCED>
+                                      <events>EVT_CHOICE</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                </object>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="">
+                                    <label>Target Projection: </label>
+                                  </object>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxChoice" name="TargerProj">
+                                    <content>
+                                      <item>Google: 'init=EPSG:900913'</item>
+                                    </content>
+                                    <selection>0</selection>
+                                    <XRCED>
+                                      <events>EVT_CHOICE</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                </object>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                          </object>
+                        </object>
+                        <flag>wxALL|wxEXPAND</flag>
+                      </object>
+                      <label>[+] Projection</label>
+                    </object>
+                    <hidden>1</hidden>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxPanel">
+                    <object class="wxStaticBoxSizer">
+                      <label>[+] Meta Data</label>
+                      <orient>wxVERTICAL</orient>
+                      <object class="sizeritem">
+                        <object class="wxPanel" name="metaPanel">
+                          <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>TileSet Name</label>
+                                  </object>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxTextCtrl" name="NameTextCtrl">
+                                    <XRCED>
+                                      <events>EVT_TEXT</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                                <orient>wxHORIZONTAL</orient>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Source</label>
+                                  </object>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxTextCtrl" name="SourceTextCtrl">
+                                    <XRCED>
+                                      <events>EVT_TEXT</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                              </object>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                            <object class="sizeritem">
+                              <object class="wxBoxSizer">
+                                <object class="sizeritem">
+                                  <object class="wxStaticText">
+                                    <label>Notes</label>
+                                    <style/>
+                                  </object>
+                                  <flag>wxALIGN_CENTRE</flag>
+                                </object>
+                                <object class="spacer">
+                                  <size>15,0</size>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxTextCtrl" name="NotesTextCtrl">
+                                    <style>wxTE_MULTILINE</style>
+                                    <XRCED>
+                                      <events>EVT_TEXT</events>
+                                      <assign_var>1</assign_var>
+                                    </XRCED>
+                                  </object>
+                                  <option>1</option>
+                                  <flag>wxALL|wxEXPAND</flag>
+                                  <border>5</border>
+                                </object>
+                                <orient>wxHORIZONTAL</orient>
+                              </object>
+                              <option>1</option>
+                              <flag>wxALL|wxEXPAND</flag>
+                            </object>
+                          </object>
+                        </object>
+                        <option>1</option>
+                        <flag>wxALL|wxEXPAND</flag>
+                      </object>
+                    </object>
+                  </object>
+                  <option>1</option>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxPanel">
+                    <object class="wxStaticBoxSizer">
+                      <object class="sizeritem">
+                        <object class="wxChoice" name="scalesChoice">
+                          <size>300,-1</size>
+                          <XRCED>
+                            <events>EVT_CHOICE</events>
+                            <assign_var>1</assign_var>
+                          </XRCED>
+                        </object>
+                      </object>
+                      <label>[+] Tile Settings</label>
+                      <orient>wxVERTICAL</orient>
+                    </object>
+                  </object>
+                  <option>0</option>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+            <object class="sizeritem">
+              <object class="wxStaticBoxSizer">
+                <label>Map</label>
+                <orient>wxVERTICAL</orient>
+                <object class="spacer">
+                  <size>256,0</size>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxPanel" name="mapPanel">
+                    <size>256,256</size>
+                    <XRCED>
+                      <assign_var>1</assign_var>
+                    </XRCED>
+                  </object>
+                  <option>1</option>
+                  <flag>wxALL|wxEXPAND|wxGROW</flag>
+                </object>
+              </object>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>3</border>
+            </object>
+          </object>
+          <fg>#FFFFFF</fg>
+          <bg>#FFFFFF</bg>
+          <XRCED>
+            <assign_var>1</assign_var>
+          </XRCED>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+      </object>
+      <object class="sizeritem">
+        <object class="wxPanel" name="TilesPanel">
+          <object class="wxStaticBoxSizer">
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <object class="sizeritem">
+                  <object class="wxStaticText">
+                    <label>Tile Cache File</label>
+                  </object>
+                  <flag>wxALL</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxTextCtrl" name="cacheFile">
+                    <XRCED>
+                      <events>EVT_TEXT</events>
+                      <assign_var>1</assign_var>
+                    </XRCED>
+                  </object>
+                  <option>1</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>6</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBitmapButton" name="ButtonCache">
+                    <size>25,25</size>
+                    <bitmap stock_id="wxART_FOLDER_OPEN"/>
+                    <XRCED>
+                      <events>EVT_BUTTON</events>
+                      <assign_var>1</assign_var>
+                    </XRCED>
+                  </object>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                </object>
+                <orient>wxHORIZONTAL</orient>
+              </object>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+            <label>Render Output</label>
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <label>Status:</label>
+                      </object>
+                      <flag>wxALL</flag>
+                      <border>5</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxFlexGridSizer">
+                        <object class="spacer">
+                          <size>20,0</size>
+                        </object>
+                        <object class="sizeritem">
+                          <object class="wxStaticBitmap" name="cacheWarn">
+                            <size>20,20</size>
+                            <bitmap stock_id="wxART_WARNING"/>
+                            <XRCED>
+                              <assign_var>1</assign_var>
+                            </XRCED>
+                          </object>
+                          <flag>wxALL</flag>
+                        </object>
+                        <cols>1</cols>
+                        <rows>2</rows>
+                      </object>
+                      <flag>wxALL|wxALIGN_CENTRE</flag>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                      <object class="wxStaticText" name="StatusTxt">
+                        <fg>#00ff00</fg>
+                        <XRCED>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <flag>wxALL</flag>
+                      <border>5</border>
+                    </object>
+                  </object>
+                </object>
+                <orient>wxVERTICAL</orient>
+                <object class="spacer">
+                  <size>10,10</size>
+                  <option>0</option>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="spacer">
+                      <option>1</option>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxButton" name="ButtonSaveMS">
+                        <label>Save For TileServer</label>
+                        <XRCED>
+                          <events>EVT_BUTTON</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                    </object>
+                    <object class="spacer">
+                      <option>1</option>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxButton" name="ButtonRender">
+                        <label>Render Tiles</label>
+                        <XRCED>
+                          <events>EVT_BUTTON</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                    </object>
+                    <object class="spacer">
+                      <option>1</option>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxButton" name="ButtonUpload">
+                        <label>Upload Tiles</label>
+                        <XRCED>
+                          <events>EVT_BUTTON</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                    </object>
+                    <object class="spacer">
+                      <option>1</option>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>6</border>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+          </object>
+          <fg>#FFFFFF</fg>
+          <bg>#FFFFFF</bg>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+      </object>
+      <object class="sizeritem">
+        <object class="wxPanel" name="ButtonPanel">
+          <object class="wxBoxSizer">
+            <orient>wxHORIZONTAL</orient>
+            <object class="sizeritem">
+              <object class="wxButton" name="Close">
+                <label>Close</label>
+                <XRCED>
+                  <events>EVT_BUTTON</events>
+                  <assign_var>1</assign_var>
+                </XRCED>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="spacer">
+              <size>80,0</size>
+            </object>
+            <object class="sizeritem">
+              <object class="wxButton" name="ButtonSave">
+                <label>Save</label>
+                <XRCED>
+                  <events>EVT_BUTTON</events>
+                  <assign_var>1</assign_var>
+                </XRCED>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="spacer">
+              <size>0,0</size>
+            </object>
+            <object class="sizeritem">
+              <object class="wxButton" name="ButtonRenderOld">
+                <label>Render</label>
+                <hidden>1</hidden>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxALIGN_CENTRE</flag>
+        <border>5</border>
+      </object>
+    </object>
+    <title>Map Loader</title>
+    <style>wxDEFAULT_FRAME_STYLE</style>
+    <XRCED>
+      <events>EVT_SIZE|EVT_CLOSE|EVT_PAINT</events>
+    </XRCED>
+  </object>
+  <object class="wxDialog" name="UploadTiles">
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxPanel">
+          <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+              <object class="wxStaticBoxSizer">
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <label>Map Config</label>
+                      </object>
+                      <flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTRE_VERTICAL</flag>
+                      <border>0</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxTextCtrl" name="DATA">
+                        <XRCED>
+                          <events>EVT_TEXT</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>6</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxBitmapButton" name="DATAOPEN">
+                        <bitmap stock_id="wxART_FOLDER_OPEN"/>
+                        <XRCED>
+                          <events>EVT_BUTTON</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <option>1</option>
+                  <flag>wxALL|wxEXPAND</flag>
+                </object>
+                <label>Map Info</label>
+                <orient>wxHORIZONTAL</orient>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxStaticBoxSizer">
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <size>70,-1</size>
+                        <label>Server</label>
+                        <style>wxALIGN_LEFT</style>
+                      </object>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxTextCtrl" name="ServerTextCtrl">
+                        <XRCED>
+                          <events>EVT_TEXT</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <size>70,-1</size>
+                        <label>Email</label>
+                      </object>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxTextCtrl" name="UserTextCtrl">
+                        <XRCED>
+                          <events>EVT_TEXT</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxStaticText">
+                        <size>70,-1</size>
+                        <label>Password</label>
+                      </object>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxTextCtrl" name="PasswdTextCtrl">
+                        <style>wxTE_PASSWORD</style>
+                        <XRCED>
+                          <events>EVT_TEXT</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND</flag>
+                      <border>3</border>
+                    </object>
+                    <orient>wxHORIZONTAL</orient>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+                <label>Connection</label>
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="spacer">
+                      <option>1</option>
+                      <flag>wxALL|wxEXPAND|wxGROW</flag>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxButton" name="TESTCONN">
+                        <label>Test Connection</label>
+                        <style>wxNO_BORDER|wxNO_BORDER</style>
+                        <XRCED>
+                          <events>EVT_BUTTON</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>0</option>
+                      <flag>wxRIGHT|wxALIGN_RIGHT</flag>
+                    </object>
+                  </object>
+                  <flag>wxALL|wxEXPAND</flag>
+                  <border>3</border>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxStaticBoxSizer">
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <object class="sizeritem">
+                      <object class="wxCheckBox" name="checkMap">
+                        <label>Map Settings</label>
+                        <checked>1</checked>
+                        <XRCED>
+                          <events>EVT_CHECKBOX</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxCheckBox" name="checkIDS">
+                        <label>Unique IDs</label>
+                        <checked>1</checked>
+                        <XRCED>
+                          <events>EVT_CHECKBOX</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <option>0</option>
+                      <flag>wxLEFT|wxEXPAND</flag>
+                      <border>20</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxCheckBox" name="checkOverview">
+                        <label>Overview</label>
+                        <checked>1</checked>
+                        <XRCED>
+                          <events>EVT_CHECKBOX</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                      <flag>wxLEFT</flag>
+                      <border>20</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxCheckBox" name="checkTiles">
+                        <label>Tiles</label>
+                        <checked>1</checked>
+                        <XRCED>
+                          <events>EVT_CHECKBOX</events>
+                          <assign_var>1</assign_var>
+                        </XRCED>
+                      </object>
+                    </object>
+                    <orient>wxVERTICAL</orient>
+                  </object>
+                </object>
+                <label>Upload</label>
+                <orient>wxVERTICAL</orient>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <object class="spacer">
+                  <option>1</option>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="CloseButton">
+                    <label>Close</label>
+                    <XRCED>
+                      <events>EVT_BUTTON</events>
+                      <assign_var>1</assign_var>
+                    </XRCED>
+                  </object>
+                </object>
+                <object class="spacer">
+                  <option>1</option>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxButton" name="UPLOAD">
+                    <label>Upload</label>
+                    <XRCED>
+                      <events>EVT_BUTTON</events>
+                      <assign_var>1</assign_var>
+                    </XRCED>
+                  </object>
+                  <option>0</option>
+                  <flag>wxLEFT|wxRIGHT</flag>
+                  <border>3</border>
+                </object>
+                <object class="spacer">
+                  <option>1</option>
+                </object>
+                <orient>wxHORIZONTAL</orient>
+              </object>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+            <object class="spacer">
+              <size>300,10</size>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+            </object>
+          </object>
+        </object>
+        <option>2</option>
+        <flag>wxALL|wxEXPAND|wxADJUST_MINSIZE</flag>
+        <border>0</border>
+      </object>
+    </object>
+    <title>Upload Tiles</title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
+  </object>
+</resource>
